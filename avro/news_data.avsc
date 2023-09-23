@@ -6,18 +6,18 @@
     {
       "name": "body",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
-      "aliases": [],
+      "aliases": ["news_body"],
       "doc": "body of news articles"
     },
     {
       "name": "url",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],
@@ -26,8 +26,8 @@
     {
       "name": "title",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],
@@ -36,8 +36,8 @@
     {
       "name": "subtitle",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],
@@ -49,15 +49,15 @@
         "type": "array",
         "items": "string"
       },
-      "default": null,
+      "default": [],
       "aliases": [],
       "doc": "array of section(s) of news site that the article came from (e.g., world, business)"
     },
     {
       "name": "item_subtype",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],
@@ -69,15 +69,15 @@
         "type": "array",
         "items": "string"
       },
-      "default": null,
+      "default": [],
       "aliases": [],
       "doc": "array of subsection(s) of news site that hte article came from (e.g., world -> americas)"
     },
     {
       "name": "source",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],
@@ -86,8 +86,8 @@
     {
       "name": "byline",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],
@@ -106,8 +106,8 @@
     {
       "name": "subheadline",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],
@@ -116,8 +116,8 @@
     {
       "name": "abstract",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],
@@ -126,8 +126,8 @@
     {
       "name": "created_date",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],
@@ -136,8 +136,8 @@
     {
       "name": "published_date",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],
@@ -146,8 +146,8 @@
     {
       "name": "first_published_date",
       "type": [
-        "string",
-        "null"
+        "null",
+        "string"
       ],
       "default": null,
       "aliases": [],

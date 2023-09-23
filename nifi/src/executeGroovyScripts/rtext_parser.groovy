@@ -82,9 +82,9 @@ flowFile = session.write(flowFile, { inputStream, outputStream ->
     def subsection_matcher = subsection_pattern.matcher(textOupt)
 
     // Extract content
-    String extracted_section = null
+    def extracted_section = []
     if (section_matcher.find()){
-        extracted_section = section_matcher.group(1).toString()
+        extracted_section << section_matcher.group(1).toString().capitalize()
     }
     
     // Extract subsection
@@ -129,7 +129,7 @@ flowFile = session.write(flowFile, { inputStream, outputStream ->
     jsonOupt.put("news_body", parsed_text)
     jsonOupt.put("authors", author_array)
     jsonOupt.put("title", extracted_title)
-    jsonOupt.put("section", extracted_section.capitalize())
+    jsonOupt.put("section", extracted_section)
     jsonOupt.put("subsection", subsection_name_array)
     jsonOupt.put("abstract", extracted_description)
     jsonOupt.put("published_date", parsedDateFinal)

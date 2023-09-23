@@ -1,0 +1,14 @@
+{
+  "name": "news_data",
+  "type": "record",
+  "namespace": "",
+  "fields": [
+    {
+      "name": "",
+      "type": [
+        "",
+        "null"
+      ]
+    }
+  ]
+}

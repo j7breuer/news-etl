@@ -10,6 +10,8 @@ import groovy.json.JsonOutput
 import org.apache.commons.io.IOUtils
 import java.util.regex.Pattern
 import java.util.regex.Matcher
+import java.text.SimpleDateFormat
+import java.util.TimeZone
 
 flowFile = session.get()
 if (!flowFile) return
@@ -20,7 +22,16 @@ flowFile = session.write(flowFile, { inputStream, outputStream ->
     def row = jsonSlurper.parseText(IOUtils.toString(inputStream, StandardCharsets.UTF_8))
     String textOupt = row.get("data").get("response").get("text")
 
-    // Define regex pattern and apply
+    // Extract source
+    String source_text = null
+    def source_pattern = Pattern.compile('Fusion\\.arcSite="([^"]+)"')
+    def source_matcher = source_pattern.matcher(textOupt)
+    if (source_matcher.find()) {
+        source_text = source_matcher.group(1)
+    }
+
+
+    // Extract body
     def content_pattern = Pattern.compile("\"content_elements\"\\s*:\\s*(\\[\\{.*?\\}\\])")
     def content_matcher = content_pattern.matcher(textOupt)
     def author_pattern = Pattern.compile('authors"\\s*:(.*?)\\s*,"word_count"')
@@ -70,7 +81,7 @@ flowFile = session.write(flowFile, { inputStream, outputStream ->
     def section_matcher = section_pattern.matcher(article_url)
     def subsection_matcher = subsection_pattern.matcher(textOupt)
 
-    // Extract section
+    // Extract content
     String extracted_section = null
     if (section_matcher.find()){
         extracted_section = section_matcher.group(1).toString()
@@ -88,11 +99,30 @@ flowFile = session.write(flowFile, { inputStream, outputStream ->
     }
 
     // Extract abstract/byline/description: First it is description, in schema it is "abstract".  Description -> abstract
-
+    String extracted_description = null
+    def description_pattern = Pattern.compile('"description":"(.*?)"')
+    def description_matcher = description_pattern.matcher(textOupt)
+    if (description_matcher.find()){
+        extracted_description = description_matcher.group(1)
+    }
 
     // Extract date created/published
     // In data: published_time -> Schema: published_date
+    String extracted_published_date = null
+    def published_time_pattern = Pattern.compile("\"published_time\":\"(.*?)\"")
+    def published_time_matcher = published_time_pattern.matcher(textOupt)
+    if (published_time_matcher.find()){
+        extracted_published_date = published_time_matcher.group(1)
+    }
 
+    // Convert to Elasticsearch format, starting with original format
+    def currentFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    currentFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+    def elasticFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
+    elasticFormat.setTimeZone(TimeZone.getDefault())
+    // Parse original string into original format
+    def parsedDate = currentFormat.parse(extracted_published_date)
+    def parsedDateFinal = elasticFormat.format(parsedDate)
 
     // Define output json
     def jsonOupt = [:]
@@ -101,6 +131,12 @@ flowFile = session.write(flowFile, { inputStream, outputStream ->
     jsonOupt.put("title", extracted_title)
     jsonOupt.put("section", extracted_section.capitalize())
     jsonOupt.put("subsection", subsection_name_array)
+    jsonOupt.put("abstract", extracted_description)
+    jsonOupt.put("published_date", parsedDateFinal)
+    jsonOupt.put("created_date", parsedDateFinal)
+    jsonOupt.put("first_published_date", parsedDateFinal)
+    jsonOupt.put("url", article_url)
+    jsonOupt.put("source", source_text.capitalize())
     def ffContent = JsonOutput.toJson(jsonOupt)
 
     // Output to flowfile

@@ -1,0 +1,157 @@
+{
+  "name": "news_data",
+  "type": "record",
+  "namespace": "etl.news",
+  "fields": [
+    {
+      "name": "body",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "body of news articles"
+    },
+    {
+      "name": "url",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "url to article"
+    },
+    {
+      "name": "title",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "title of article"
+    },
+    {
+      "name": "subtitle",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "subtitle of article, if provided - usually not"
+    },
+    {
+      "name": "section",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "default": null,
+      "aliases": [],
+      "doc": "array of section(s) of news site that the article came from (e.g., world, business)"
+    },
+    {
+      "name": "item_subtype",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "type of published item - (e.g., original article, correction, change, update)"
+    },
+    {
+      "name": "subsection",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "default": null,
+      "aliases": [],
+      "doc": "array of subsection(s) of news site that hte article came from (e.g., world -> americas)"
+    },
+    {
+      "name": "source",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "news site the article came from"
+    },
+    {
+      "name": "byline",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "byline for article of who wrote it and potentially edited, revised, etc."
+    },
+    {
+      "name": "authors",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "default": [],
+      "aliases": [],
+      "doc": "array of authors"
+    },
+    {
+      "name": "subheadline",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "sometimes provided, subheadline of article"
+    },
+    {
+      "name": "abstract",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "summary or description of article"
+    },
+    {
+      "name": "created_date",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "date-time of when the article was originally created"
+    },
+    {
+      "name": "published_date",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "date-time of when the article was most recently published"
+    },
+    {
+      "name": "first_published_date",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "date-time of when article went live"
+    }
+  ]
+}

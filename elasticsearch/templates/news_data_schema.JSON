@@ -1,0 +1,72 @@
+{
+  "version": 6,
+  "index_patterns": ["news_data-*"],
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 1,
+    "index": {
+      "lifecycle": {
+        "name": "twentygb_rollover",
+        "rollover_alias": "news_data_rollover_alias"
+      },
+      "refresh_interval": "1s"
+    }
+  },
+  "mappings": {
+    "properties": {
+      "body": {
+        "type": "text"
+      },
+      "url": {
+        "type": "text"
+      },
+      "title": {
+        "type": "text"
+      },
+      "subtitle": {
+        "type": "text"
+      },
+      "section": {
+        "type": "text"
+      },
+      "item_subtype": {
+        "type": "text"
+      },
+      "subsection": {
+        "type": "text"
+      },
+      "source": {
+        "type": "text"
+      },
+      "byline": {
+        "type": "text"
+      },
+      "authors": {
+        "type": "text"
+      },
+      "subheadline": {
+        "type": "text"
+      },
+      "abstract": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "created_date": {
+        "type": "date",
+        "format": "strict_date_time_no_millis"
+      },
+      "published_date": {
+        "type": "date",
+        "format": "strict_date_time_no_millis"
+      },
+      "first_published_date": {
+        "type": "date",
+        "format": "strict_date_time_no_millis"
+      }
+    }
+  }
+}

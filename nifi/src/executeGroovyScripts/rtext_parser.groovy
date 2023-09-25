@@ -38,11 +38,21 @@ flowFile = session.write(flowFile, { inputStream, outputStream ->
     def author_matcher = author_pattern.matcher(textOupt)
     def parsed_text = ''  // Initialize the variable outside the block
 
+    // Replace the matched hyperlink with the captured text, escaping any double quotes
+    def startPattern = /<a href=\\\"[^\\]+\\\">([^<]+)/
+    def replaceHyperlink = { match ->
+        // Escape any double quotes in the captured text
+        def linkedText = match[0][1].replace('"', '\\"')
+        return linkedText
+    }
+
     // Extract body of article
     try {
         if (content_matcher.find()) {
             def extractedValue = content_matcher.group(1)
-            def extractedJson = new JsonSlurper().parseText(extractedValue)
+            def cleaned_extractedValue = extractedValue.replaceAll(startPattern, replaceHyperlink)
+            cleaned_extractedValue = cleaned_extractedValue.replaceAll(/<\/a>/, '')
+            def extractedJson = new JsonSlurper().parseText(cleaned_extractedValue)
             parsed_text = extractedJson.collect { entry ->
                 switch (entry.type) {
                     case 'paragraph':

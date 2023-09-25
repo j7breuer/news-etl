@@ -39,19 +39,23 @@ flowFile = session.write(flowFile, { inputStream, outputStream ->
     def parsed_text = ''  // Initialize the variable outside the block
 
     // Extract body of article
-    if (content_matcher.find()) {
-        def extractedValue = content_matcher.group(1)
-        def extractedJson = new JsonSlurper().parseText(extractedValue)
-        parsed_text = extractedJson.collect { entry ->
-            switch (entry.type) {
-                case 'paragraph':
-                    return entry.content + '\n'
-                case 'header':
-                    return entry.content + '\n\n'
-                default:
-                    return ''
-            }
-        }.join()
+    try {
+        if (content_matcher.find()) {
+            def extractedValue = content_matcher.group(1)
+            def extractedJson = new JsonSlurper().parseText(extractedValue)
+            parsed_text = extractedJson.collect { entry ->
+                switch (entry.type) {
+                    case 'paragraph':
+                        return entry.content + '\n'
+                    case 'header':
+                        return entry.content + '\n\n'
+                    default:
+                        return ''
+                }
+            }.join()
+        }
+    } catch (Exception e) {
+        parsed_text = "Unparsed text: ${e.message}"
     }
 
     // Extract authors

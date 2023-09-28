@@ -134,9 +134,17 @@ flowFile = session.write(flowFile, { inputStream, outputStream ->
     currentFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
     def elasticFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
     elasticFormat.setTimeZone(TimeZone.getDefault())
+    def parsedDateFinal = ""
+
     // Parse original string into original format
-    def parsedDate = currentFormat.parse(extracted_published_date)
-    def parsedDateFinal = elasticFormat.format(parsedDate)
+    try {
+        def parsedDate = currentFormat.parse(extracted_published_date)
+        parsedDateFinal = elasticFormat.format(parsedDate)
+    } catch (Exception e) {
+        def now = new Date()
+        def sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
+        parsedDateFinal = sdf.format(now)
+    }
 
     // Define output json
     def jsonOupt = [:]

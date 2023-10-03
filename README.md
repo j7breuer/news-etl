@@ -63,12 +63,12 @@ Using Jenkins, Sonarqube, and Nexus as the core CI/CD tools, Jenkins is used to 
 Currently, the Jenkinsfile is only outlined with these basic steps but will later be updated to include the code to carry out each step.
 
 ## External Services Utilized
-### Language Translation API:
+### <a href="https://github.com/j7breuer/language-translation-api">Language Translation API</a>:
 Depending on the news source, some articles are published for non-English speaking audiences.  English is the standardized language of choice for the ETL and all future analytic steps.
 
 If an article is detected to be in a non-English language (e.g., Spanish, French, German), then the article's data will be sent to the language translation API for translation. 
 
-### Webscraper API:
+### <a href="https://github.com/j7breuer/webscraper-api">Webscraper API</a>:
 All new source's webpages relevant content for this ETL are either in HTML or JavaScript.  In order to centralize all API calls for gathering news information, all articles pulled from RSS feeds are sent to the webscraper API for the request call to be made.
 
 By sending all webscraping calls through the API, logs are stored in one location and additional steps to ensure anonymity can be added to the Dockerfile.

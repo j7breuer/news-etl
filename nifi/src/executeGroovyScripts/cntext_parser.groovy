@@ -16,7 +16,6 @@ import java.util.TimeZone
 flowFile = session.get()
 if (!flowFile) return
 
-<<<<<<< HEAD
 try {
     flowFile = session.write(flowFile, { inputStream, outputStream ->
         // Define json object from content

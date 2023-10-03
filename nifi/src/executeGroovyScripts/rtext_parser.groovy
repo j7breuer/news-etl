@@ -125,6 +125,7 @@ try {
             extracted_description = description_matcher.group(1)
         }
 
+<<<<<<< HEAD
         // Extract date created/published
         // In data: published_time -> Schema: published_date
         String extracted_published_date = null
@@ -133,6 +134,24 @@ try {
         if (published_time_matcher.find()){
             extracted_published_date = published_time_matcher.group(1)
         }
+=======
+    // Convert to Elasticsearch format, starting with original format
+    def currentFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    currentFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+    def elasticFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
+    elasticFormat.setTimeZone(TimeZone.getDefault())
+    def parsedDateFinal = ""
+
+    // Parse original string into original format
+    try {
+        def parsedDate = currentFormat.parse(extracted_published_date)
+        parsedDateFinal = elasticFormat.format(parsedDate)
+    } catch (Exception e) {
+        def now = new Date()
+        def sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
+        parsedDateFinal = sdf.format(now)
+    }
+>>>>>>> cf4b61b0d2860ba9bbc4d2711195a727bf01cf0b
 
         // Convert to Elasticsearch format, starting with original format
         def currentFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")

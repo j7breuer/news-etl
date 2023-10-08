@@ -17,6 +17,12 @@
       "body": {
         "type": "text"
       },
+      "translated_body": {
+        "type": "text"
+      },
+      "detected_language": {
+        "type": "keyword"
+      },
       "url": {
         "type": "text"
       },

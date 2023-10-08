@@ -14,6 +14,26 @@
       "doc": "body of news articles"
     },
     {
+      "name": "translated_body",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "translated body in english of news articles"
+    },
+    {
+      "name": "detected_language",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "aliases": [],
+      "doc": "abbreviation of language of original body"
+    },
+    {
       "name": "url",
       "type": [
         "null",

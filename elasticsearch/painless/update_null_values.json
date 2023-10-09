@@ -1,0 +1,15 @@
+{
+  "query": {
+    "bool": {
+      "must_not": {
+        "exists": {
+          "field": "source"
+        }
+      }
+    }
+  },
+  "script": {
+    "source": "ctx._source['field name here'] = 'value here'",
+    "lang": "painless"
+  }
+}

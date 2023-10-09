@@ -1,0 +1,66 @@
+# Reindex data to conform to new schemas
+# Executed in Kibana Dev Tools
+
+# Step 1: Update template using update_template.sh
+
+# Step 2: Create temporary index to hold data
+PUT /news_data-000011
+{
+  "aliases": {
+    "news_data_rollover_alias": {
+      "is_write_index": "true"
+    }
+  }
+}
+
+# Step 3: Copy data over
+POST _reindex?wait_for_completion=false
+{
+  "source": {
+    "index": "news_data-000001"
+  },
+  "dest": {
+    "index": "news_data-000011"
+  }
+}
+
+# Step 4: Remove original index
+DELETE news_data-000001
+
+# Step 5: Recreate original index using updated template
+PUT news_data-000001
+{
+  "aliases": {
+    "news_data_rollover_alias": {
+      "is_write_index": "true"
+    }
+  }
+}
+
+# Step 6: Copy data back from temp index to original index
+POST _reindex?wait_for_completion=false
+{
+  "source": {
+    "index": "news_data-000011"
+  },
+  "dest": {
+    "index": "news_data-000001"
+  }
+}
+
+# Step 7: Delete temp index
+DELETE news_data-000011
+
+# Step 8: Ensure the recreated original index is still the write index
+POST _aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "news_data-000001",
+        "alias": "news_data_rollover_alias",
+        "is_write_index": "true"
+      }
+    }
+  ]
+}

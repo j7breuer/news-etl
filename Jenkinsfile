@@ -17,7 +17,7 @@ pipeline {
                 sshagent(credentials: ['nifi-node-1']) {
                     withCredentials([usernamePassword(credentialsId: 'nexus-login', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
                         sh """
-                            ssh user@${env.NIFI_NODE_1} "
+                            ssh -o StrictHostKeyChecking=no user@${env.NIFI_NODE_1} "
                                 git clone https://github.com/j7breuer/news-etl.git &&
                                 mkdir ./news-etl/jars &&
                                 cd ./news-etl/jars &&

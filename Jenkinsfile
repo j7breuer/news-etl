@@ -17,18 +17,8 @@ pipeline {
                 sshagent(credentials: ['nifi-node-1']) {
                     withCredentials([usernamePassword(credentialsId: 'nexus-login', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no user@${env.NIFI_NODE_1} "whoami"
-                        """
-                    }
-                }
-                echo '\n============================\n[START] Repository file transfer started...\n============================\n'
-                echo "Transferring  to node 1: ${env.NIFI_NODE_1}"
-                sshagent(credentials: ['nifi-node-1']) {
-                    withCredentials([usernamePassword(credentialsId: 'nexus-login', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
-                        sh """
                             ssh -o StrictHostKeyChecking=no user@${env.NIFI_NODE_1} "
-                                whoami
-                                env
+                                rm -rf news-etl &&
                                 git clone https://github.com/j7breuer/news-etl.git &&
                                 mkdir ./news-etl/jars &&
                                 cd ./news-etl/jars &&

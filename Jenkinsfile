@@ -2,14 +2,7 @@ pipeline {
     agent any
 
     environment {
-        jarsArray = [
-            "tika-langdetect-1.28.5.jar",
-            "tika-langdetect-optimaize-2.9.0.jar",
-            "tika-core-2.9.0.jar",
-            "tika-app-2.4.1.jar",
-            "tika-eval-app-2.4.1.jar",
-            "tika-parser-scientific-package-2.4.1.jar"
-        ]
+        jarsArray = "tika-langdetect-1.28.5.jar;tika-langdetect-optimaize-2.9.0.jar;tika-core-2.9.0.jar;tika-app-2.4.1.jar;tika-eval-app-2.4.1.jar;tika-parser-scientific-package-2.4.1.jar"
     }
 
     stages {
@@ -21,7 +14,7 @@ pipeline {
                 echo '\n=====================\n[END] Initializing...\n=====================\n'
             }
         }
-        stage('Repository clone and file transfer from Nexus') {
+        stage('SCP Necessary Artifacts') {
             steps {
                 echo '\n============================\n[START] Repository file transfer started...\n============================\n'
                 echo "Transferring  to node 1: ${env.NIFI_NODE_1}"
@@ -33,7 +26,7 @@ pipeline {
                             git clone https://github.com/j7breuer/news-etl.git &&
                             mkdir ./news-etl/jars &&
                             cd ./news-etl/jars &&
-                            ${jarsArray.collect { "curl -u \$NEXUS_USERNAME:\$NEXUS_PASSWORD -O ${env.NEXUS}:8081/repository/3rd-party/jars/${it}" }.join(" && ")}
+                            ${jarsArray.split(';').collect { "curl -u \$NEXUS_USERNAME:\$NEXUS_PASSWORD -O ${env.NEXUS}:8081/repository/3rd-party/jars/${it}" }.join(" && ")}
                         "
                     """
                     }
@@ -47,7 +40,7 @@ pipeline {
                                 git clone https://github.com/j7breuer/news-etl.git &&
                                 mkdir ./news-etl/jars &&
                                 cd ./news-etl/jars &&
-                                curl -u \$NEXUS_USERNAME:\$NEXUS_PASSWORD -O ${env.NEXUS}:8081/repository/3rd-party/jars/tika-core-2.9.0.jar
+                                ${jarsArray.split(';').collect { "curl -u \$NEXUS_USERNAME:\$NEXUS_PASSWORD -O ${env.NEXUS}:8081/repository/3rd-party/jars/${it}" }.join(" && ")}
                             "
                         """
                     }
@@ -61,7 +54,7 @@ pipeline {
                                 git clone https://github.com/j7breuer/news-etl.git &&
                                 mkdir ./news-etl/jars &&
                                 cd ./news-etl/jars &&
-                                curl -u \$NEXUS_USERNAME:\$NEXUS_PASSWORD -O ${env.NEXUS}:8081/repository/3rd-party/jars/tika-core-2.9.0.jar
+                                ${jarsArray.split(';').collect { "curl -u \$NEXUS_USERNAME:\$NEXUS_PASSWORD -O ${env.NEXUS}:8081/repository/3rd-party/jars/${it}" }.join(" && ")}
                             "
                         """
                     }

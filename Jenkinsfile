@@ -2,7 +2,14 @@ pipeline {
     agent any
 
     environment {
-        jarsArray = ["tika-langdetect-1.28.5.jar", "tika-langdetect-optimaize-2.9.0.jar", "tika-core-2.9.0.jar", "tika-app-2.4.1.jar", "tika-eval-app-2.4.1.jar", "tika-parser-scientific-package-2.4.1.jar"]
+        jarsArray = eval([
+            "tika-langdetect-1.28.5.jar",
+            "tika-langdetect-optimaize-2.9.0.jar",
+            "tika-core-2.9.0.jar",
+            "tika-app-2.4.1.jar",
+            "tika-eval-app-2.4.1.jar",
+            "tika-parser-scientific-package-2.4.1.jar"
+        ])
     }
 
     stages {

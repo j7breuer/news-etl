@@ -3,13 +3,13 @@
     "bool": {
       "must_not": {
         "exists": {
-          "field": "source"
+          "field": "<enter field>"
         }
       }
     }
   },
   "script": {
-    "source": "ctx._source['field name here'] = 'value here'",
+    "source": "ctx._source['<enter field>'] = '<enter value>'",
     "lang": "painless"
   }
 }

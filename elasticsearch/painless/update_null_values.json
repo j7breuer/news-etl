@@ -9,7 +9,7 @@
     }
   },
   "script": {
-    "source": "ctx._source['field name here'] = 'value here'",
+    "source": "ctx._source['source'] = 'NY Times'",
     "lang": "painless"
   }
 }

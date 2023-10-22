@@ -1,0 +1,14 @@
+# Set OS
+FROM nvidia/cuda:11.8.0-cudnn8-devel-centos7
+
+# Assign maintainer
+LABEL maintainer="j7breuer@gmail.com"
+
+# Install pip
+RUN set -xe \
+	&& yum install -y python3-pip epel-release curl git vim
+RUN pip3 install --upgrade pip
+
+# Install torch
+RUN pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
+
